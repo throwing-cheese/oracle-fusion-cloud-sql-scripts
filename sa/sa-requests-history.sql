@@ -876,6 +876,3 @@ https://zz.oraclecloud.com/analytics/saw.dll?bipublisherEntry&Action=history
 Report Job ID: EXTERNALPROCESSID
 Report Job Name: REQUESTID
 */
-
-select * from fusion_ora_ess.request_history_view where requestid = 5292473
-select * from fusion_ora_ess.request_history where requestid = 5292473
