@@ -90,6 +90,7 @@ select * from fusion_ora_ess.request_property where requestid = 123456
 			 , rh.product
 			 , rh.username
 			 , replace(replace(replace(rh.error_warning_message, chr(10), ''), chr(13), ''), chr(09), '') error_warning_message
+			 , replace(replace(replace(rp.value, chr(10), ''), chr(13), ''), chr(09), '') completion_text
 			 -- , rh.error_warning_detail -- including this breaks excel export as it always has line breaks and things in it, even if you try and strip them out they always appear at the start of the field, whatever i try...
 			 -- , replace(replace(replace(utl_raw.cast_to_varchar2(rh.adhocschedule),chr(0),''),chr(10),''),chr(13),'') adhocschedule_cast -- contains schedule data
 			 , '#########################'
@@ -97,7 +98,7 @@ select * from fusion_ora_ess.request_property where requestid = 123456
 			 , rhv.lastscheduleinstanceid
 		  from request_history rh
 		  join fnd_lookup_values_vl flv_state on flv_state.lookup_code = rh.state and flv_state.lookup_type = 'ORA_EGP_ESS_REQUEST_STATUS'
-	left join fusion_ora_ess.request_history_view rhv on rhv.requestid = rh.requestid
+	 left join request_property rp on rp.requestid = rh.requestid and rp.name in ('completionText')
 		 where 1 = 1
 		   -------------------------- ids --------------------------
 		   -- and rh.requestid = 123456
@@ -161,17 +162,15 @@ select * from fusion_ora_ess.request_property where requestid = 123456
 			 , ppx.person_number
 			 , nvl(pea.email_address, 'no-email') email_address
 			 , replace(replace(replace(rh.error_warning_message, chr(10), ''), chr(13), ''), chr(09), '') error_warning_message
-			 , rh.error_warning_detail -- including this breaks excel export as it always has line breaks and things in it, even if you try and strip them out they always appear at the start of the field, whatever i try...
-			 , '#########################'
-			 , rhv.name rhv_name
-			 , rhv.lastscheduleinstanceid
+			 , replace(replace(replace(rp.value, chr(10), ''), chr(13), ''), chr(09), '') completion_text
+			 -- , rh.error_warning_detail -- including this breaks excel export as it always has line breaks and things in it, even if you try and strip them out they always appear at the start of the field, whatever i try...
 		  from request_history rh
 		  join fnd_lookup_values_vl flv_state on flv_state.lookup_code = rh.state and flv_state.lookup_type = 'ORA_EGP_ESS_REQUEST_STATUS' and flv_state.view_application_id = 0
-	left join per_users pu on rh.username = pu.username and pu.active_flag = 'Y' -- some user accounts have more than 1 row in user tables e.g. FAAdmin, so only select active user
-	left join per_people_x ppx on ppx.person_id = pu.person_id
-	left join per_person_names_f ppnf on ppx.person_id = ppnf.person_id and ppnf.name_type = 'GLOBAL' and sysdate between ppnf.effective_start_date and ppnf.effective_end_date
-	left join per_email_addresses pea on ppx.person_id = pea.person_id and pea.email_type = 'W1'
-	left join fusion_ora_ess.request_history_view rhv on rhv.requestid = rh.requestid
+	 left join per_users pu on rh.username = pu.username and pu.active_flag = 'Y' -- some user accounts have more than 1 row in user tables e.g. FAAdmin, so only select active user
+	 left join per_people_x ppx on ppx.person_id = pu.person_id
+	 left join per_person_names_f ppnf on ppx.person_id = ppnf.person_id and ppnf.name_type = 'GLOBAL' and sysdate between ppnf.effective_start_date and ppnf.effective_end_date
+	 left join per_email_addresses pea on ppx.person_id = pea.person_id and pea.email_type = 'W1'
+	 left join request_property rp on rp.requestid = rh.requestid and rp.name in ('completionText')
 		 where 1 = 1
 		   -------------------------- ids --------------------------
 		   -- and rh.requestid = 123456
