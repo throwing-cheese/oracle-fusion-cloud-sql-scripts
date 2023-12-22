@@ -288,54 +288,32 @@ In which case can join rcv_transactions to AP Invoice Distribution: rt.transacti
 			 , rsh.receipt_num
 			 , to_char(rsh.creation_date, 'yyyy-mm-dd hh24:mi:ss') receipt_created
 			 , rsh.created_by receipt_created_by
-			 -- , ppav.segment1 project
-			 -- , to_char(pda.pjc_expenditure_item_date, 'yyyy-mm-dd') pjc_expenditure_item_date
-			 -- , exp_type.expenditure_type_name exp_type
-			 -- , prha.requisition_header_id
-			 -- , pha.po_header_id
-			 -- , rsh.shipment_header_id
-			 -- , rt.transaction_id
-			 -- , pla.po_line_id
-			 -- , prda.requisition_line_id
-			 -- , prda.distribution_id req_dist_id
-			 -- , pda.po_distribution_id
-			 , count(*) ct
+			 , ppav.segment1 project
+			 , to_char(pda.pjc_expenditure_item_date, 'yyyy-mm-dd') pjc_expenditure_item_date
+			 , exp_type.expenditure_type_name exp_type
+			 , prha.requisition_header_id
+			 , pha.po_header_id
+			 , rsh.shipment_header_id
+			 , rt.transaction_id
+			 , pla.po_line_id
+			 , prda.requisition_line_id
+			 , prda.distribution_id req_dist_id
+			 , pda.po_distribution_id
 		  from rcv_shipment_headers rsh
-	 left join rcv_transactions rt on rt.shipment_header_id = rsh.shipment_header_id
-	 left join po_headers_all pha on rt.po_header_id = pha.po_header_id
-	 left join po_lines_all pla on rt.po_line_id = pla.po_line_id
-	 left join po_distributions_all pda on pla.po_line_id = pda.po_line_id
-	 left join po_line_locations_all plla on pla.po_line_id = plla.po_line_id
-	 left join por_req_distributions_all prda on pda.req_distribution_id = prda.distribution_id
-	 left join por_requisition_lines_all prla on prla.requisition_line_id = prda.requisition_line_id
-	 left join por_requisition_headers_all prha on prha.requisition_header_id = prla.requisition_header_id
-	 left join fun_all_business_units_v bu on bu.bu_id = pha.req_bu_id
+		  join rcv_transactions rt on rt.shipment_header_id = rsh.shipment_header_id
+		  join po_headers_all pha on rt.po_header_id = pha.po_header_id
+		  join po_lines_all pla on rt.po_line_id = pla.po_line_id
+		  join po_distributions_all pda on pla.po_line_id = pda.po_line_id
+		  join po_line_locations_all plla on pla.po_line_id = plla.po_line_id
+		  join por_req_distributions_all prda on pda.req_distribution_id = prda.distribution_id
+		  join por_requisition_lines_all prla on prla.requisition_line_id = prda.requisition_line_id
+		  join por_requisition_headers_all prha on prha.requisition_header_id = prla.requisition_header_id
+		  join fun_all_business_units_v bu on bu.bu_id = pha.req_bu_id
 	 left join pjf_projects_all_vl ppav on pda.pjc_project_id = ppav.project_id
 	 left join pjf_exp_types_tl exp_type on pda.pjc_expenditure_type_id = exp_type.expenditure_type_id and exp_type.language = userenv('lang')
 		 where 1 = 1
 		   and 1 = 1
-	  group by bu.bu_name
-			 , prha.requisition_number
-			 , to_char(prha.creation_date,'yyyy-mm-dd hh24:mi:ss')
-			 , prha.created_by
-			 , pha.segment1
-			 , pha.document_creation_method
-			 , to_char(pha.creation_date,'yyyy-mm-dd hh24:mi:ss')
-			 , pha.created_by
-			 , rsh.receipt_num
-			 , to_char(rsh.creation_date, 'yyyy-mm-dd hh24:mi:ss')
-			 , rsh.created_by
-			 -- , ppav.segment1
-			 -- , to_char(pda.pjc_expenditure_item_date, 'yyyy-mm-dd')
-			 -- , exp_type.expenditure_type_name
-			 -- , prha.requisition_header_id
-			 -- , pha.po_header_id
-			 -- , rsh.shipment_header_id
-			 -- , rt.transaction_id
-			 -- , pla.po_line_id
-			 -- , prda.requisition_line_id
-			 -- , prda.distribution_id req_dist_id
-			 -- , pda.po_distribution_id
+	  order by to_char(rsh.creation_date, 'yyyy-mm-dd hh24:mi:ss') desc
 
 -- ##############################################################
 -- RECEIPT COUNTS
