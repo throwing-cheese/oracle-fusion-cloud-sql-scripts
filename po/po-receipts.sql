@@ -369,7 +369,7 @@ In which case can join rcv_transactions to AP Invoice Distribution: rt.transacti
 	 left join por_requisition_lines_all prla on prla.requisition_line_id = prda.requisition_line_id
 	 left join por_requisition_headers_all prha on prha.requisition_header_id = prla.requisition_header_id
 		 where 1 = 1
-		   and 1 = 1 and rt.destination_type_code = 'EXPENSE'
+		   and 1 = 1
 	  group by bu.bu_name
 			 , rt.transaction_type
 			 , rt.destination_type_code
