@@ -304,11 +304,11 @@ In which case can join rcv_transactions to AP Invoice Distribution: rt.transacti
 		  join po_headers_all pha on rt.po_header_id = pha.po_header_id
 		  join po_lines_all pla on rt.po_line_id = pla.po_line_id
 		  join po_distributions_all pda on pla.po_line_id = pda.po_line_id
-		  join po_line_locations_all plla on pla.po_line_id = plla.po_line_id
-		  join por_req_distributions_all prda on pda.req_distribution_id = prda.distribution_id
-		  join por_requisition_lines_all prla on prla.requisition_line_id = prda.requisition_line_id
-		  join por_requisition_headers_all prha on prha.requisition_header_id = prla.requisition_header_id
 		  join fun_all_business_units_v bu on bu.bu_id = pha.req_bu_id
+	 left join po_line_locations_all plla on pla.po_line_id = plla.po_line_id
+	 left join por_req_distributions_all prda on pda.req_distribution_id = prda.distribution_id
+	 left join por_requisition_lines_all prla on prla.requisition_line_id = prda.requisition_line_id
+	 left join por_requisition_headers_all prha on prha.requisition_header_id = prla.requisition_header_id
 	 left join pjf_projects_all_vl ppav on pda.pjc_project_id = ppav.project_id
 	 left join pjf_exp_types_tl exp_type on pda.pjc_expenditure_type_id = exp_type.expenditure_type_id and exp_type.language = userenv('lang')
 		 where 1 = 1
