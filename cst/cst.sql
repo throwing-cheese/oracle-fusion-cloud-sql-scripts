@@ -10,6 +10,8 @@ Queries:
 -- COST TRANSACTIONS - DISTRIBUTIONS
 -- PERIOD CLOSE ACTIONS
 -- PERIOD CLOSE ACTIONS - STUCK IN "PENDING INTERFACE" STATUS
+-- COST INV ORGS
+-- COST ACCOUNTING PERIODS
 
 */
 
@@ -161,3 +163,10 @@ Run "Transfer Costs to Cost Management" program to clear issues
 
 select * from cst_cost_inv_orgs
 select * from cst_organization_definitions_v
+
+-- ##################################################################
+-- COST ACCOUNTING PERIODS
+-- ##################################################################
+
+select * from CST_PERIOD_STATUSES where period_name = 'Nov-23'
+select * from CST_PERIOD_CLOSE_ACTIONS where period_name = 'Nov-23'
