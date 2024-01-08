@@ -139,6 +139,7 @@ If you have any problems with the scripts, [please log an issue](https://github.
 |       sa-approval-groups.sql
 |       sa-attachments.sql
 |       sa-audit.sql
+|       sa-bi-catalog.sql
 |       sa-bpm-history-ap-payment-approvals.sql
 |       sa-bpm-history.sql
 |       sa-business-units.sql
