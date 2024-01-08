@@ -32,11 +32,21 @@ Queries:
 -- TABLES 2
 -- ##############################################################
 
-			select distinct upper(table_name)
-				 , num_rows
-			  from all_tables
-			 where num_rows > 0
-			   and upper(table_name) like '%MAP%'
+
+		select distinct upper(table_name)
+			 , 'select * from ' || upper(table_name) || ' -- [' || num_rows || ']' sql
+			 , num_rows
+			 , regexp_substr(table_name, '[^_]+', 1, 1) segment1
+			 , regexp_substr(table_name, '[^_]+', 1, 2) segment2
+			 , regexp_substr(table_name, '[^_]+', 1, 3) segment3
+			 , regexp_substr(table_name, '[^_]+', 1, 4) segment4
+			 , regexp_substr(table_name, '[^_]+', 1, 5) segment5
+			 , regexp_substr(table_name, '[^_]+', 1, 6) segment6
+			 , regexp_substr(table_name, '[^_]+', 1, 7) segment7
+			 , regexp_substr(table_name, '[^_]+', 1, 8) segment8
+		  from all_tables
+		 where num_rows > 0
+		   and upper(table_name) like '%MTD%'
 
 -- ##############################################################
 -- TABLE ROW COUNT PER MODULE
